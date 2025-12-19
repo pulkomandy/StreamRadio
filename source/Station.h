@@ -73,7 +73,7 @@ public:
 		fUnsaved = true;
 	}
 
-	inline BUrl StationUrl() { return fStationUrl; }
+	inline MyUrl StationUrl() { return fStationUrl; }
 	inline void SetStation(BUrl url)
 	{
 		fStationUrl = url;
@@ -149,12 +149,12 @@ protected:
 	void CleanName();
 
 	BString fName;
-	BUrl fStreamUrl;
-	BUrl fStationUrl;
+	MyUrl fStreamUrl;
+	MyUrl fStationUrl;
 	BString fGenre;
 	BString fCountry;
 	BString fLanguage;
-	BUrl fSource;
+	MyUrl fSource;
 	BMimeType fMime;
 	uint32 fEncoding;
 	BBitmap* fLogo;

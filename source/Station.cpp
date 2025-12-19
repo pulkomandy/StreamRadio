@@ -275,7 +275,7 @@ Station::Probe()
 	if (fStreamUrl.Protocol() == "https") {
 		buffer = HttpUtils::GetAll(fStreamUrl, &headers, 2 * 1000 * 1000, &contentType, 4096);
 	} else {
-		BUrl resolvedUrl;
+		MyUrl resolvedUrl;
 		status_t resolveStatus = HttpUtils::CheckPort(fStreamUrl, &resolvedUrl);
 		if (resolveStatus != B_OK)
 			return B_ERROR;
@@ -399,7 +399,7 @@ Station::ParseUrlReference(const char* body, const BUrl& baseUrl)
 	for (int32 i = 0; i < 3; i++) {
 		char* match = RegFind(body, patterns[i]);
 		if (match != NULL) {
-			fStreamUrl = BUrl(baseUrl, match);
+			fStreamUrl = MyUrl(baseUrl, match);
 			free(match);
 
 			match = RegFind(body, patterns[3]);
@@ -555,7 +555,7 @@ Station::RegFind(const char* text, const char* pattern)
 Station*
 Station::LoadIndirectUrl(BString& shoutCastUrl)
 {
-	BUrl url(shoutCastUrl);
+	MyUrl url(shoutCastUrl);
 	if (!url.IsValid())
 		return NULL;
 
@@ -599,7 +599,7 @@ Station::LoadIndirectUrl(BString& shoutCastUrl)
 	 *  Check for name and logo on same server by calling main page
 	 */
 
-	BUrl finalUrl = station->fStationUrl;
+	MyUrl finalUrl(station->fStationUrl);
 	if ((!finalUrl.HasPort() || finalUrl.Port() == 80)
 		&& (!finalUrl.HasPath() || finalUrl.Path().IsEmpty() || finalUrl.Path() == "/")) {
 		if (station->fName.IsEmpty())

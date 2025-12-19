@@ -322,9 +322,15 @@ MainWindow::MessageReceived(BMessage* message)
 
 		case MSG_HELP:
 		{
+#if B_HAIKU_VERSION < B_HAIKU_VERSION_R1_BETA_6
 			BUrl userguide = BUrl(
 				"https://github.com/HaikuArchives/"
 				"StreamRadio/blob/master/docs/userguide.md");
+#else
+			BUrl userguide = BUrl(
+				"https://github.com/HaikuArchives/"
+				"StreamRadio/blob/master/docs/userguide.md", true);
+#endif
 			userguide.OpenWithPreferredApplication(true);
 
 			break;

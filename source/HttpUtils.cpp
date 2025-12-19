@@ -62,7 +62,7 @@ private:
  * Loops on the DNS responses looking for connectivity on specified port.
  */
 status_t
-HttpUtils::CheckPort(BUrl url, BUrl* newUrl, uint32 flags)
+HttpUtils::CheckPort(BUrl url, MyUrl* newUrl, uint32 flags)
 {
 	uint16 port;
 	if (url.HasPort())

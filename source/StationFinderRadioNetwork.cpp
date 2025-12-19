@@ -148,7 +148,7 @@ StationFinderRadioNetwork::FindBy(
 	BString searchForString(searchFor);
 	searchForString = BUrl::UrlEncode(searchForString, true, true);
 	urlString.Append(searchForString);
-	BUrl finalUrl(urlString);
+	MyUrl finalUrl(urlString);
 
 	BMessage parsedData;
 	BMallocIO* data = HttpUtils::GetAll(finalUrl);
@@ -179,7 +179,7 @@ StationFinderRadioNetwork::FindBy(
 				BString iconUrl;
 				if (stationMessage.FindString("favicon", &iconUrl) == B_OK) {
 					if (!iconUrl.IsEmpty()) {
-						fIconLookupList.AddItem(new IconLookup(station, BUrl(iconUrl)));
+						fIconLookupList.AddItem(new IconLookup(station, MyUrl(iconUrl)));
 					}
 				}
 
@@ -251,7 +251,7 @@ status_t
 StationFinderRadioNetwork::_CheckServer()
 {
 	// Just a quick check up on our cached server...if it exists.
-	BUrl cachedServerUrl(sCachedServerUrl);
+	MyUrl cachedServerUrl(sCachedServerUrl);
 	if (!sCachedServerUrl.IsEmpty()
 		&& HttpUtils::CheckPort(cachedServerUrl, &cachedServerUrl, 0) == B_OK) {
 		// It's still there!
@@ -259,7 +259,7 @@ StationFinderRadioNetwork::_CheckServer()
 	}
 
 	// Try to find an active server!
-	BUrl testServerUrl(kBaseUrl);
+	MyUrl testServerUrl(kBaseUrl);
 	status_t result = HttpUtils::CheckPort(testServerUrl, &testServerUrl, 0);
 	if (result != B_OK) {
 		// Oh no...this is, uh, pretty bad.

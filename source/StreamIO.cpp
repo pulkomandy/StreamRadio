@@ -82,7 +82,7 @@ StreamIO::StreamIO(Station* station, BLooper* metaListener)
 		fReq = dynamic_cast<BHttpRequest*>(
 			BUrlProtocolRoster::MakeRequest(url.UrlString().String(), this, this));
 	} else {
-		BUrl* newUrl = new BUrl();
+		MyUrl* newUrl = new MyUrl();
 		if (newUrl == NULL)
 			return;
 

@@ -118,7 +118,7 @@ public:
 protected:
 	// To be filled by specific StationFinder implementations
 	BString serviceName;
-	BUrl serviceHomePage;
+	MyUrl serviceHomePage;
 	BBitmap* serviceLogo;
 #if B_HAIKU_VERSION > B_HAIKU_VERSION_1_BETA_5
 	BObjectList<FindByCapability, true> findByCapabilities;

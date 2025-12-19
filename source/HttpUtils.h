@@ -24,12 +24,65 @@
 #include <StringList.h>
 #include <Url.h>
 
+
+// Wrapper class to ensure compatibility with old and new versions of the BUrl API
+// Make sure to properly encode URLs as needed.
+class MyUrl: public BUrl
+{
+	public:
+	MyUrl()
+		: BUrl()
+	{
+	}
+
+	MyUrl(const BUrl& base, const BString& relative)
+		: BUrl(base, relative)
+	{
+	}
+
+#if B_HAIKU_VERSION < B_HAIKU_VERSION_1_BETA_6
+	MyUrl(const BUrl& other)
+		: BUrl(other)
+	{
+	}
+
+	MyUrl(const char* string)
+		: BUr(string)
+	{
+		UrlEncode();
+	}
+
+	void SetUrlString(const char* string)
+	{
+		BUrl::SetUrlString(string);
+		UrlEncode();
+	}
+#else
+	MyUrl(const BUrl& other)
+		: BUrl(other)
+	{
+	}
+
+	MyUrl(const char* string)
+		: BUrl(string, true)
+	{
+	}
+
+	void SetUrlString(const char* string)
+	{
+		BUrl::SetUrlString(string, true);
+	}
+#endif
+};
+
+
+
 using namespace BPrivate::Network;
 
 
 class HttpUtils {
 public:
-	static status_t CheckPort(BUrl url, BUrl* newUrl, uint32 flags = 0);
+	static status_t CheckPort(BUrl url, MyUrl* newUrl, uint32 flags = 0);
 
 	static BMallocIO* GetAll(BUrl url, BHttpHeaders* returnHeaders = NULL, bigtime_t timeOut = 3000,
 		BString* contentType = NULL, size_t sizeLimit = 0);
